@@ -1,0 +1,15 @@
+repos:
+  - repo: git://github.com/pecigonzalo/pre-commit-shfmt
+    rev: 9ee28e3f14556aa88dd5255f2e091d1d2f607bb7
+    hooks:
+      - id: shell-fmt
+
+  - repo: git://github.com/pre-commit/pre-commit-hooks
+    rev: v1.2.3
+    hooks:
+      - id: check-yaml
+      - id: check-json
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-case-conflict
+      - id: check-merge-conflict

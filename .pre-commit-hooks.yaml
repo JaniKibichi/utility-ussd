@@ -1,0 +1,5 @@
+- repo: git@github.com:coyainsurance/pre-commit-scalafmt.git
+  sha: master
+  hooks:
+    - id: scalafmt
+      args: [ -p9090, -t ]
