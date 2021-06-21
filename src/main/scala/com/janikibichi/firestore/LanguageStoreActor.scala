@@ -2,11 +2,11 @@ package com.janikibichi.firestore
 
 import akka.actor._
 import co.uk.bboxx.firestore.MenuOptionsProtocol.MenuOption
-import co.uk.bboxx.utils.FireStoreConfig
 import com.google.api.core.ApiFuture
 import com.google.cloud.firestore._
-import scala.jdk.CollectionConverters._
+import com.janikibichi.bboxx.utils.FireStoreConfig
 
+import scala.jdk.CollectionConverters._
 import com.janikibichi.firestore.LanguageStoreProtocol.StoreMenus
 import com.janikibichi.firestore.MenuContentProtocol.MenuContent
 import com.janikibichi.services.LanguageMenuProtocol.LanguageMenu

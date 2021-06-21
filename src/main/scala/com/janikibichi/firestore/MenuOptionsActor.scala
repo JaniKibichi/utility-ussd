@@ -1,11 +1,10 @@
-package co.uk.bboxx.firestore
+package com.janikibichi.firestore
 
 import akka.actor._
-import co.uk.bboxx.firestore.MenuOptionsProtocol._
-import co.uk.bboxx.firestore.SessionStatesProtocol._
-import co.uk.bboxx.utils.FireStoreConfig
 import com.google.api.core.ApiFuture
 import com.google.cloud.firestore._
+import com.janikibichi.bboxx.utils.FireStoreConfig
+import com.janikibichi.firestore.MenuOptionsProtocol._
 
 import scala.jdk.CollectionConverters._
 import scala.collection.mutable
@@ -45,9 +44,7 @@ class MenuOptionsActor(randomId:String) extends Actor with ActorLogging{
           language = document.getString("language"),
         )
       }
-      log.info(
-        s"Received Request for MenuOption from FireStore DB as: ${menuList.toList}"
-      )
+      log.info(s"Received Request for MenuOption from FireStore DB as: ${menuList.toList}")
       // RETURN DATA
       sender() ! menuList.toList
 

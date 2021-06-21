@@ -1,10 +1,10 @@
 package com.janikibichi.firestore
 
-import akka.actor.{Actor, ActorLogging, Props}
-import co.uk.bboxx.firestore.MenuContentProtocol._
-import co.uk.bboxx.utils.FireStoreConfig
+import akka.actor._
 import com.google.api.core.ApiFuture
 import com.google.cloud.firestore._
+import com.janikibichi.bboxx.utils.FireStoreConfig
+import com.janikibichi.firestore.MenuContentProtocol._
 import scala.jdk.CollectionConverters._
 import scala.collection.mutable
 
@@ -38,9 +38,7 @@ class MenuContentActor(randomId:String) extends Actor with ActorLogging{
           language= document.getString("language")
         )
       }
-      log.info(
-        s"Received Request for ${language} Menu from FireStore DB as: ${menuList.toList}"
-      )
+      log.info(s"Received Request for ${language} Menu from FireStore DB as: ${menuList.toList}")
       // RETURN DATA
       sender() ! menuList.toList
 
@@ -61,9 +59,7 @@ class MenuContentActor(randomId:String) extends Actor with ActorLogging{
           language= document.getString("language")
         )
       }
-      log.info(
-        s"Received Request for ${state} MenuContent from FireStore DB as: ${menuList.toList}"
-      )
+      log.info(s"Received Request for ${state} MenuContent from FireStore DB as: ${menuList.toList}")
       // RETURN DATA
       sender() ! menuList.toList
 
