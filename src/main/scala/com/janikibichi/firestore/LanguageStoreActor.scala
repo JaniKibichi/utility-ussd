@@ -1,32 +1,31 @@
 package com.janikibichi.firestore
 
 import akka.actor._
-import co.uk.bboxx.firestore.MenuOptionsProtocol.MenuOption
 import com.google.api.core.ApiFuture
 import com.google.cloud.firestore._
 import com.janikibichi.bboxx.utils.FireStoreConfig
 
 import scala.jdk.CollectionConverters._
-import com.janikibichi.firestore.LanguageStoreProtocol.StoreMenus
+import com.janikibichi.firestore.LanguageStoreProtocol._
 import com.janikibichi.firestore.MenuContentProtocol.MenuContent
-import com.janikibichi.services.LanguageMenuProtocol.LanguageMenu
+import com.janikibichi.firestore.MenuOptionsProtocol.MenuOption
 
 object LanguageStoreProtocol{
   def props(randomId:String): Props = Props(new LanguageStoreActor(randomId:String))
 
   // WE CAN ONLY USE THIS ACTOR TO STORE NEW MENUS, TO FETCH WE EITHER FETCH MENU CONTENT OR MENU OPTIONS FROM RESPECTIVE ACTORS
   final case class LanguageStore(language: String, menucontent: List[MenuContent],menuoptions: List[MenuOption])
-  final case class StoreMenus(languageMenu: LanguageMenu)
+  final case class StoreMenus(languageMenu: LanguageStore)
 
 }
 
 class LanguageStoreActor(randomId:String) extends Actor with ActorLogging{
 
   def receive: Receive = {
-    case StoreMenus(languageMenu: LanguageMenu) =>
+    case StoreMenus(languageStore: LanguageStore) =>
 
       // STORE MENU CONTENT
-      for(menu <- languageMenu.menucontent)yield{
+      for(menu <- languageStore.menucontent)yield{
         // CREATE A REFERENCE
         val menuDocRef: DocumentReference = FireStoreConfig.database.collection("MenuContent").document()
         val menuMap = Map(
@@ -40,7 +39,7 @@ class LanguageStoreActor(randomId:String) extends Actor with ActorLogging{
       }
 
       // STORE MENU OPTIONS
-      for(opt <- languageMenu.menuoptions)yield{
+      for(opt <- languageStore.menuoptions)yield{
         // CREATE A REFERENCE
         val menuDocRef: DocumentReference = FireStoreConfig.database.collection("MenuOption").document()
         val menuMap = Map(
