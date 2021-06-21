@@ -1,0 +1,9 @@
+version: '3'
+services:
+  web:
+    image: utility-ussd-api
+    build: ./
+    container_name: utility-ussd-api
+    ports:
+      - "7500:7500"
+    stdin_open: true

@@ -1,0 +1,36 @@
+package com.janikibichi.services
+
+import akka.actor._
+import akka.pattern._
+import co.uk.bboxx.firestore.MenuOptionsProtocol.MenuOption
+import com.janikibichi.firestore.LanguageStoreProtocol
+import com.janikibichi.firestore.MenuContentProtocol.MenuContent
+import com.janikibichi.services.LanguageMenuProtocol.{LanguageMenu, MenuUpdate, StoreLanguageMenu}
+import com.janikibichi.utils.AppUtils._
+
+import scala.concurrent.Future
+import scala.util.Random
+
+object LanguageMenuProtocol{
+  def props(randomId:String):Props = Props(new LanguageMenuActor(randomId:String))
+
+  // WE CAN ONLY USE THIS ACTOR TO STORE NEW MENUS, TO FETCH WE EITHER FETCH MENU CONTENT OR MENU OPTIONS FROM RESPECTIVE ACTORS
+  final case class LanguageMenu(language: String, menucontent: List[MenuContent],menuoptions: List[MenuOption])
+  final case class StoreLanguageMenu(languageMenu: LanguageMenu)
+  final case class MenuUpdate(status:String, message:String)
+
+}
+
+class LanguageMenuActor(randomId:String) extends Actor with ActorLogging{
+
+  def receive: Receive = {
+    case StoreLanguageMenu(languageMenu: LanguageMenu) =>
+      storeLanguageMenus(languageMenu: LanguageMenu).pipeTo(sender())
+  }
+
+  def storeLanguageMenus(languageMenu: LanguageMenu):Future[MenuUpdate] ={
+    val languageStoreActor = actorSystem.actorOf(LanguageStoreProtocol.props(Random.nextString(12)))
+    (languageStoreActor ? StoreLanguageMenu(languageMenu)).mapTo[MenuUpdate]
+  }
+
+}

@@ -1,10 +1,10 @@
-package co.janikibichi.firestore
+package com.janikibichi.firestore
 
 import akka.actor._
-import co.uk.bboxx.firestore.USSDSessionsProtocol._
-import co.uk.bboxx.utils.FireStoreConfig
 import com.google.api.core.ApiFuture
 import com.google.cloud.firestore._
+import com.janikibichi.bboxx.utils.FireStoreConfig
+import com.janikibichi.firestore.OngoingSessionsProtocol._
 import scala.jdk.CollectionConverters._
 import scala.collection.mutable
 import scala.concurrent.duration._
@@ -15,16 +15,7 @@ object OngoingSessionsProtocol {
 
   final case class GetOngoingSessionByPhone(phoneNumber: String)
   final case class GetOngoingSession(sessionId: String)
-  final case class OngoingSession(
-      state: String,
-      sessionId: String,
-      language: String,
-      fullName: String,
-      idDocument: String,
-      chosenAc: String,
-      amount: String,
-      phone: String
-  )
+  final case class OngoingSession(state: String, sessionId: String, language: String, fullName: String, idDocument: String, chosenAc: String, amount: String, phone: String, dataKey:String)
   final case class StoreOngoingSession(session: OngoingSession)
   final case class DeleteOngoingSession(sessionId: String)
 
@@ -51,7 +42,8 @@ class OngoingSessionsActor(randomId: String) extends Actor with ActorLogging {
           idDocument = document.getString("idDocument"),
           chosenAc = document.getString("chosenAc"),
           amount = document.getString("amount"),
-          chosenPhone = document.getString("chosenPhone")
+          phone = document.getString("phone"),
+          dataKey = document.getString("dataKey"),
         )
       }
       log.info(
@@ -78,7 +70,8 @@ class OngoingSessionsActor(randomId: String) extends Actor with ActorLogging {
           idDocument = document.getString("idDocument"),
           chosenAc = document.getString("chosenAc"),
           amount = document.getString("amount"),
-          chosenPhone = document.getString("chosenPhone")
+          phone = document.getString("phone"),
+          dataKey = document.getString("dataKey")
         )
       }
       log.info(
@@ -90,14 +83,15 @@ class OngoingSessionsActor(randomId: String) extends Actor with ActorLogging {
     case StoreOngoingSession(os: OngoingSession) =>
       val sessionDocRef: DocumentReference = FireStoreConfig.database.collection("OngoingSession").document(os.sessionId)
       val sessionMap = Map(
-        "state"       -> os.state,
-        "sessionId"   -> os.sessionId,
-        "language"    -> os.language,
-        "fullName"    -> os.fullName,
-        "idDocument"  -> os.idDocument,
-        "chosenAc"    -> os.chosenAc,
-        "amount"      -> os.amount,
-        "chosenPhone" -> os.chosenPhone
+        "state" -> os.state,
+        "sessionId" -> os.sessionId,
+        "language" -> os.language,
+        "fullName" -> os.fullName,
+        "idDocument" -> os.idDocument,
+        "chosenAc" -> os.chosenAc,
+        "amount" -> os.amount,
+        "phone" -> os.phone,
+        "dataKey" -> os.dataKey,
       )
       // ASYNCHRONOUSLY WRITE DATA
       val writtenResult: ApiFuture[WriteResult] = sessionDocRef.set(sessionMap.asJava, SetOptions.merge())
