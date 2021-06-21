@@ -1,8 +1,8 @@
 package com.janikibichi.routes.marshalling
 
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
-import co.uk.bboxx.firestore.MenuOptionsProtocol.MenuOption
 import com.janikibichi.firestore.MenuContentProtocol.MenuContent
+import com.janikibichi.firestore.MenuOptionsProtocol.MenuOption
 import com.janikibichi.models.africastalking.ussd.USSDFSMProtocol.USSDRequest
 import com.janikibichi.services.LanguageMenuProtocol.{LanguageMenu, MenuUpdate}
 import spray.json.{DefaultJsonProtocol, RootJsonFormat}
