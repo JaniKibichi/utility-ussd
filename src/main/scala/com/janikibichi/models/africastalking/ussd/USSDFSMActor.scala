@@ -2,12 +2,11 @@ package com.janikibichi.models.africastalking.ussd
 
 import akka.actor._
 import akka.pattern._
-import co.uk.bboxx.firestore.MenuOptionsProtocol
-import co.uk.bboxx.firestore.MenuOptionsProtocol._
 import com.janikibichi.MenuSetup
 import com.janikibichi.firestore._
 import com.janikibichi.firestore.MenuAnswerProtocol._
 import com.janikibichi.firestore.MenuContentProtocol._
+import com.janikibichi.firestore.MenuOptionsProtocol._
 import com.janikibichi.firestore.OngoingSessionsProtocol._
 import com.janikibichi.firestore.UnregisteredUserProtocol._
 import com.janikibichi.firestore.UserProfileProtocol
@@ -15,6 +14,7 @@ import com.janikibichi.firestore.UserProfileProtocol._
 import com.janikibichi.models.africastalking.ussd.USSDFSMProtocol._
 import com.janikibichi.utils.{InputUtils, UtilityUSSDConfig}
 import com.janikibichi.utils.AppUtils._
+
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration.DurationInt
 import scala.util.Random

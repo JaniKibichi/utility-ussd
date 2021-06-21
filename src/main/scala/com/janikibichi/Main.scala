@@ -23,5 +23,4 @@ object Main extends App with LazyLogging with Routes {
         s"Akka http server failed to start with error ${exception.printStackTrace()}"
       )
   }
-
 }
