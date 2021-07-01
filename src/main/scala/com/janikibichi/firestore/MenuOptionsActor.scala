@@ -3,8 +3,8 @@ package com.janikibichi.firestore
 import akka.actor._
 import com.google.api.core.ApiFuture
 import com.google.cloud.firestore._
-import com.janikibichi.bboxx.utils.FireStoreConfig
 import com.janikibichi.firestore.MenuOptionsProtocol._
+import com.janikibichi.utils.FireStoreConfig
 
 import scala.jdk.CollectionConverters._
 import scala.collection.mutable

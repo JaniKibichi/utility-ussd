@@ -3,8 +3,9 @@ package com.janikibichi.firestore
 import akka.actor._
 import com.google.api.core.ApiFuture
 import com.google.cloud.firestore._
-import com.janikibichi.bboxx.utils.FireStoreConfig
 import com.janikibichi.firestore.MenuContentProtocol._
+import com.janikibichi.utils.FireStoreConfig
+
 import scala.jdk.CollectionConverters._
 import scala.collection.mutable
 
@@ -23,7 +24,7 @@ class MenuContentActor(randomId:String) extends Actor with ActorLogging{
 
     case GetMenus(language:String) =>
       // CREATE A REFERENCE
-      val menuCollRef: CollectionReference = FireStoreConfig.database.collection("MenuContent")
+      val menuCollRef: CollectionReference =FireStoreConfig.database.collection("MenuContent")
       // CREATE A QUERY AGAINST THE COLLECTION
       val query: Query = menuCollRef.whereEqualTo("language", language)
       // RETRIEVE QUERY RESULTS ASYNCHRONOUSLY USING QUERY.GET

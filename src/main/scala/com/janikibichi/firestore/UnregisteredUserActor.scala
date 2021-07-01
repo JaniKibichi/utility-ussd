@@ -3,7 +3,7 @@ package com.janikibichi.firestore
 import akka.actor.{Actor, ActorLogging, Props}
 import com.google.api.core.ApiFuture
 import com.google.cloud.firestore.{CollectionReference, DocumentReference, QueryDocumentSnapshot, QuerySnapshot, SetOptions, WriteResult}
-import com.janikibichi.bboxx.utils.FireStoreConfig
+import com.janikibichi.utils.FireStoreConfig
 import com.janikibichi.firestore.UnregisteredUserProtocol._
 import scala.jdk.CollectionConverters._
 import scala.collection.mutable

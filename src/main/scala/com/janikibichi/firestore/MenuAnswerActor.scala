@@ -4,7 +4,7 @@ import akka.actor._
 import com.janikibichi.firestore.MenuAnswerProtocol._
 import com.google.api.core.ApiFuture
 import com.google.cloud.firestore._
-import com.janikibichi.bboxx.utils.FireStoreConfig
+import com.janikibichi.utils.FireStoreConfig
 import scala.jdk.CollectionConverters._
 import scala.collection.mutable
 

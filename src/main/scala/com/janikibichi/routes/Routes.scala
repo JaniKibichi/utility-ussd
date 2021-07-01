@@ -47,7 +47,10 @@ trait Routes extends LazyLogging with CORSHandler {
       corsHandler(
         path("setup" / "ussd") {
           post {
-            entity(as[LanguageMenu]) { languageMenu =>
+            entity(as[JsValue]) { jsValue =>
+                logger.info(s"JS Value Received as : $jsValue")
+                /*
+                                languageMenu =>
               logger.info(s"Menu Data $languageMenu")
               onComplete(RestAPI.storeMenu(languageMenu)){
                 case Failure(exception) =>
@@ -57,6 +60,9 @@ trait Routes extends LazyLogging with CORSHandler {
                 case Success(menuUpdate:MenuUpdate) =>
                   complete(menuUpdate)
               }
+                   */
+                complete(OK)
+
             }
           }
         }
