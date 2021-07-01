@@ -4,7 +4,7 @@ import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import com.janikibichi.firestore.MenuContentProtocol.MenuContent
 import com.janikibichi.firestore.MenuOptionsProtocol.MenuOption
 import com.janikibichi.models.africastalking.ussd.USSDFSMProtocol.USSDRequest
-import com.janikibichi.services.LanguageMenuProtocol.{LanguageMenu, MenuUpdate}
+import com.janikibichi.services.LanguageMenuProtocol.{AddMenu, LanguageMenu, MenuUpdate}
 import spray.json.{DefaultJsonProtocol, RootJsonFormat}
 
 object WebJSONSupport extends DefaultJsonProtocol with SprayJsonSupport {
@@ -20,5 +20,7 @@ object WebJSONSupport extends DefaultJsonProtocol with SprayJsonSupport {
 
   // MARSHALL LANGUAGE MENU DATA
   implicit val LanguageMenuFormat: RootJsonFormat[LanguageMenu]       = jsonFormat3(LanguageMenu.apply)
+
+  implicit val AddMenuFormat: RootJsonFormat[AddMenu] = jsonFormat1(AddMenu.apply)
 
 }
