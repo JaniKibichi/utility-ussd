@@ -13,7 +13,7 @@ object MenuAnswerProtocol{
   def props(randomId:String):Props = Props(new MenuAnswerActor(randomId:String))
 
   final case class GetMenuAnswer(state:String)
-  final case class MenuAnswer(state:String,answer:java.util.Map[String,String]) // ANSWERS MAP WITH OPTION INDEX AND DATA TYPE
+  final case class MenuAnswer(state:String,option:String,nextState:String) // ANSWERS MAP WITH OPTION INDEX AND DATA TYPE
   final case class StoreMenuAnswer(menuAnswer: MenuAnswer)
   final case class DeleteMenuAnswer(state:String)
 
@@ -33,8 +33,9 @@ class MenuAnswerActor(randomId:String) extends Actor with ActorLogging{
       val documents: java.util.List[QueryDocumentSnapshot] = querySnapshot.get().getDocuments
       val menuAnsList: mutable.Buffer[MenuAnswer] = for (document <- documents.asScala) yield {
         MenuAnswer(
-          state= document.getString("state"),
-          answer= document.getData.get("answer").asInstanceOf[java.util.Map[String,String]]
+          state = document.getString("state"),
+          option = document.getString("option"),
+          nextState = document.getString("nextState")
         )
       }
       log.info(s"Received Request for MenuAnswer from FireStore DB as: ${menuAnsList.toList}")
@@ -43,10 +44,11 @@ class MenuAnswerActor(randomId:String) extends Actor with ActorLogging{
 
     case StoreMenuAnswer(ans: MenuAnswer) =>
       // CREATE A REFERENCE
-      val menuDocRef: DocumentReference = FireStoreConfig.database.collection("MenuAnswer").document(ans.state)
+      val menuDocRef: DocumentReference = FireStoreConfig.database.collection("MenuAnswer").document()
       val menuAnsMap = Map(
         "state" -> ans.state,
-        "answer" -> ans.answer
+        "option" -> ans.option,
+        "nextState" -> ans.nextState
       )
       // ASYNCHRONOUSLY WRITE DATA
       val writtenResult: ApiFuture[WriteResult] = menuDocRef.set(menuAnsMap.asJava, SetOptions.merge())

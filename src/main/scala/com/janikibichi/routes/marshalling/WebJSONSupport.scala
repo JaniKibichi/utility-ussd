@@ -19,7 +19,7 @@ object WebJSONSupport extends DefaultJsonProtocol with SprayJsonSupport {
   implicit val MenuContentFormat: RootJsonFormat[MenuContent]         = jsonFormat4(MenuContent.apply)
 
   // MARSHALL LANGUAGE MENU DATA
-  implicit val LanguageMenuFormat: RootJsonFormat[LanguageMenu]       = jsonFormat3(LanguageMenu.apply)
+  implicit val LanguageMenuFormat: RootJsonFormat[LanguageMenu]       = jsonFormat4(LanguageMenu.apply)
 
   implicit val AddMenuFormat: RootJsonFormat[AddMenu] = jsonFormat1(AddMenu.apply)
 

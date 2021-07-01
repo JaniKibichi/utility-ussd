@@ -66,7 +66,7 @@ class MenuContentActor(randomId:String) extends Actor with ActorLogging{
 
     case StoreMenuContent(menu: MenuContent) =>
       // CREATE A REFERENCE
-      val menuDocRef: DocumentReference = FireStoreConfig.database.collection("MenuContent").document()
+      val menuDocRef: DocumentReference = FireStoreConfig.database.collection("MenuContent").document(menu.state)
       val menuMap = Map(
         "title"->menu.title,
         "body"->menu.body,
