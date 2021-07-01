@@ -14,7 +14,7 @@ object MenuContentProtocol{
 
   final case class GetMenus(language:String)
   final case class GetMenuContent(state:String,language:String)
-  final case class MenuContent(title:String,body:String,state:String,language:String)
+  final case class MenuContent(title:String,body:String,state:String,language:String,dataKey:String)
   final case class StoreMenuContent(menuContent: MenuContent)
 
 }
@@ -36,7 +36,8 @@ class MenuContentActor(randomId:String) extends Actor with ActorLogging{
           title= document.getString("title"),
           body= document.getString("body"),
           state= document.getString("state"),
-          language= document.getString("language")
+          language= document.getString("language"),
+          dataKey= document.getString("dataKey"),
         )
       }
       log.info(s"Received Request for ${language} Menu from FireStore DB as: ${menuList.toList}")
@@ -57,7 +58,8 @@ class MenuContentActor(randomId:String) extends Actor with ActorLogging{
           title= document.getString("title"),
           body= document.getString("body"),
           state= document.getString("state"),
-          language= document.getString("language")
+          language= document.getString("language"),
+          dataKey= document.getString("dataKey"),
         )
       }
       log.info(s"Received Request for ${state} MenuContent from FireStore DB as: ${menuList.toList}")
@@ -71,7 +73,8 @@ class MenuContentActor(randomId:String) extends Actor with ActorLogging{
         "title"->menu.title,
         "body"->menu.body,
         "state"->menu.state,
-        "language"->menu.language
+        "language"->menu.language,
+        "dataKey"->menu.dataKey
       )
       // ASYNCHRONOUSLY WRITE DATA
       val writtenResult: ApiFuture[WriteResult] = menuDocRef.set(menuMap.asJava, SetOptions.merge())
