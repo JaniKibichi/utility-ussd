@@ -19,7 +19,7 @@ object FireStoreConfig{
   val options: FirebaseOptions = FirebaseOptions
     .builder()
     .setCredentials(GoogleCredentials.getApplicationDefault())
-    .setStorageBucket("your-globally-unique-bucket-name.appspot.com")
+    .setStorageBucket("smart-surf-285319.appspot.com")
     .setDatabaseAuthVariableOverride(auth) // ADD AUTH TO RE REQUEST AS PER SET PROD FIRESTORE DB RULES
     .build()
 
