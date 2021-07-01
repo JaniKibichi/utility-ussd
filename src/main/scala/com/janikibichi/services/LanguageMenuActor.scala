@@ -3,6 +3,7 @@ package com.janikibichi.services
 import akka.actor._
 import akka.pattern._
 import com.janikibichi.firestore.LanguageStoreProtocol
+import com.janikibichi.firestore.LanguageStoreProtocol.{LanguageStore, StoreMenus}
 import com.janikibichi.firestore.MenuContentProtocol._
 import com.janikibichi.firestore.MenuOptionsProtocol._
 import com.janikibichi.services.LanguageMenuProtocol._
@@ -25,8 +26,8 @@ object LanguageMenuProtocol{
 class LanguageMenuActor(randomId:String) extends Actor with ActorLogging{
 
   def receive: Receive = {
-    case AddMenu(languageMenu:LanguageMenu) =>
-      storeLanguageMenus(languageMenu: LanguageMenu).pipeTo(sender())
+    case addMenu: AddMenu =>
+      storeAddedMenu(addMenu).pipeTo(sender())
 
     case StoreLanguageMenu(languageMenu: LanguageMenu) =>
       storeLanguageMenus(languageMenu: LanguageMenu).pipeTo(sender())
@@ -35,6 +36,11 @@ class LanguageMenuActor(randomId:String) extends Actor with ActorLogging{
   def storeLanguageMenus(languageMenu: LanguageMenu):Future[MenuUpdate] ={
     val languageStoreActor = actorSystem.actorOf(LanguageStoreProtocol.props(Random.nextString(12)))
     (languageStoreActor ? StoreLanguageMenu(languageMenu)).mapTo[MenuUpdate]
+  }
+
+  def storeAddedMenu(addMenu: AddMenu):Future[MenuUpdate] ={
+    val languageStoreActor = actorSystem.actorOf(LanguageStoreProtocol.props(Random.nextString(12)))
+    (languageStoreActor ? StoreMenus(languageStore = LanguageStore(language = addMenu.languageMenu.language,menucontent = addMenu.languageMenu.menucontent,menuoptions = addMenu.languageMenu.menuoptions))).mapTo[MenuUpdate]
   }
 
 }

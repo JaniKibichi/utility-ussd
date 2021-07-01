@@ -14,7 +14,7 @@ object RestAPI{
   // 1. STORE MENU
   def storeMenu(addMenu: AddMenu):Future[MenuUpdate]={
     val languageMenuActor = actorSystem.actorOf(LanguageMenuProtocol.props(addMenu.languageMenu.language))
-    (languageMenuActor ? languageMenu).mapTo[MenuUpdate]
+    (languageMenuActor ? addMenu).mapTo[MenuUpdate]
   }
 
   // 2. PROCESS USSD REQUEST
