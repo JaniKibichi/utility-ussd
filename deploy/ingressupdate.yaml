@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ussd-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  tls:
+    - hosts:
+        - utility.ussd.janikibichi.com
+      secretName: hello-kubernetes-tls
+  rules:
+    - host: "utility.ussd.janikibichi.com"
+      http:
+        paths:
+          - path: "/"
+            backend:
+              serviceName: ussd-service
+              servicePort: 80

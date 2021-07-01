@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ussd-deployment
+  labels:
+    app: ussd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ussd
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 33%
+  template:
+    metadata:
+      labels:
+        app: ussd
+    spec:
+      volumes:
+        - name: firebase-key
+          secret:
+            secretName: firebase-key
+      containers:
+        - name: ussd-api
+          image: gcr.io/smart-surf-285319/ussdapi
+          volumeMounts:
+            - mountPath: /var/secrets/firebase
+              name: firebase-key
+          env:
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /var/secrets/firebase/key.json
+          ports:
+            - containerPort: 7500
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 7500
+            initialDelaySeconds: 400
+            periodSeconds: 200
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 7500
+            initialDelaySeconds: 400
+            periodSeconds: 200

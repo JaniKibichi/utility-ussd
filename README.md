@@ -44,3 +44,29 @@ $ echo UPDATE THE VM LIBRARIES ======================================= \
 && echo INSTALL SSL ================================================== \
 && sudo certbot --nginx
 ```
+
+##### TECHNOLOGY
+- API : Akka
+- DB : Firestore
+- Mobile Money : Safaricom API
+- Short Code : Africa's Talking API
+- Deployed : Google Cloud Platform
+
+
+##### CREATE GKE CLUSTER, GKE NODES + AUTOSCALER, HORIZONTAL POD AUTOSCALER
+
+1. gcloud init && gcloud compute machine-types list --filter="zone:(us-central1-a)"
+2. gcloud container clusters create ussd-cluster --zone us-central1-a --num-nodes 1 --enable-autoscaling --min-nodes 1 --max-nodes 10  --machine-type=n1-standard-1
+3. gcloud container clusters get-credentials ussd-cluster --zone us-central1-a --project smart-surf-285319
+4. gcloud projects add-iam-policy-binding smart-surf-285319 --member=serviceAccount:665270238595@cloudbuild.gserviceaccount.com --role=roles/container.developer
+
+##### OPERATIONS
+Set Up CloudBuild to: Build Image, Upload Image to GCR, Deploy Image to GKE
+
+1. Run sbt stage to create files to target/universal/stage/bin
+2. Generate Dockerfile using sbt docker:stage
+3. This file can be found at target/docker/stage/Dockerfile
+4. Create the CloudBuild Yaml
+5. gcloud builds submit --timeout=900S --project=smart-surf-285319 --config cloudbuild.yaml
+
+kubectl --namespace default get services -o wide -w nginx-ingress-ingress-nginx-controller

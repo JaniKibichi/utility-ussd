@@ -1,4 +1,4 @@
-package com.janikibichi.bboxx.utils
+package com.janikibichi.utils
 
 import java.io.InputStream
 

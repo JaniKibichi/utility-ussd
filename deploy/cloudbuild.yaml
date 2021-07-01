@@ -1,0 +1,17 @@
+steps:
+  # build the container image
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "gcr.io/smart-surf-285319/ussdapi", "."]
+
+    # push container image
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/smart-surf-285319/ussdapi"]
+
+    # deploy container image to GKE
+  - name: "gcr.io/cloud-builders/gke-deploy"
+    args:
+      - run
+      - --filename=deployment.yaml
+      - --image=gcr.io/smart-surf-285319/ussdapi
+      - --location=us-central1-a
+      - --cluster=ussd-cluster
